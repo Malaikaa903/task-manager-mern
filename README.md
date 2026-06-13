@@ -49,37 +49,25 @@ A full-stack **Task Manager** web application built with the **MERN Stack** (Mon
 
 ## 📁 Project Structure
 
+```
 task-manager/
-
 ├── backend/
-
-│ ├── config/ # Database connection
-
-│ ├── controllers/ # Route logic
-
-│ ├── middleware/ # Auth middleware
-
-│ ├── models/ # Mongoose schemas
-
-│ ├── routes/ # API routes
-
-│ └── server.js
-
+│   ├── config/         # Database connection
+│   ├── controllers/    # Route logic
+│   ├── middleware/     # Auth middleware
+│   ├── models/         # Mongoose schemas
+│   ├── routes/         # API routes
+│   └── server.js       # Entry point
 │
-
-├── frontend/
-
-│ ├── src/
-
-│ │ ├── api/ # Axios config
-
-│ │ ├── components/# Reusable components
-
-│ │ ├── context/ # Auth context
-
-│ │ └── pages/ # App pages
-
-│ └── package.json
+└── frontend/
+    ├── src/
+    │   ├── api/        # Axios config
+    │   ├── components/ # Reusable components
+    │   ├── context/    # Auth context
+    │   ├── pages/      # App pages
+    │   └── main.jsx    # Entry point
+    └── package.json
+```
 
 ---
 
@@ -100,6 +88,7 @@ npm install
 ```
 
 Create `.env` file in backend folder:
+
 PORT=5000
 
 MONGO_URI=your_mongodb_connection_string
