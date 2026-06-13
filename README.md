@@ -89,11 +89,13 @@ npm install
 
 Create `.env` file in backend folder:
 
+```
 PORT=5000
 
 MONGO_URI=your_mongodb_connection_string
 
 JWT_SECRET=your_jwt_secret_key
+```
 
 ```bash
 npm run dev
