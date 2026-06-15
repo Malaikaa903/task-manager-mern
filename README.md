@@ -9,8 +9,8 @@ A full-stack **Task Manager** web application built with the **MERN Stack** (Mon
 
 ## 🚀 Live Demo
 
-- **Frontend:** _Coming soon (Vercel)_
-- **Backend API:** _Coming soon (Render)_
+- **Frontend:** https://task-manager-mern-cyan.vercel.app
+- **Backend API:** https://task-manager-mern-uk1c.vercel.app
 
 ---
 
