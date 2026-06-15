@@ -12,7 +12,7 @@ connectDB();
 const app = express();
 
 // Middleware
-aapp.use(
+app.use(
   cors({
     origin: "*",
     credentials: false,
