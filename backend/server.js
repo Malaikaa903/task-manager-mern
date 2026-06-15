@@ -12,13 +12,10 @@ connectDB();
 const app = express();
 
 // Middleware
-app.use(
+aapp.use(
   cors({
-    origin: [
-      "https://task-manager-mern-cyan.vercel.app",
-      "http://localhost:5173",
-    ],
-    credentials: true,
+    origin: "*",
+    credentials: false,
   }),
 );
 app.use(express.json());
