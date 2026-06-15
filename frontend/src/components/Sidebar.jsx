@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
@@ -5,11 +6,17 @@ import toast from "react-hot-toast";
 const Sidebar = ({ stats, activeFilter, onFilterChange }) => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   const handleLogout = () => {
     logout();
     toast.success("Logged out successfully");
     navigate("/login");
+  };
+
+  const handleFilterChange = (value) => {
+    onFilterChange(value);
+    setMobileOpen(false);
   };
 
   const navItems = [
@@ -34,19 +41,6 @@ const Sidebar = ({ stats, activeFilter, onFilterChange }) => {
     },
   ];
 
-  const sidebarStyle = {
-    width: "224px",
-    backgroundColor: "white",
-    borderRight: "1px solid #F1F5F9",
-    display: "flex",
-    flexDirection: "column",
-    height: "100vh",
-    position: "fixed",
-    left: 0,
-    top: 0,
-    zIndex: 20,
-  };
-
   const getNavStyle = (value, isUrgent = false) => ({
     width: "100%",
     display: "flex",
@@ -65,10 +59,9 @@ const Sidebar = ({ stats, activeFilter, onFilterChange }) => {
           : "#EFF6FF"
         : "transparent",
     color:
-      activeFilter === value ? (isUrgent ? "#DC2626" : "#2563EB") : "#64748B",
+      activeFilter === value ? (isUrgent ? "#DC2626" : "#2563EB") : "#475569",
     border: "none",
     textAlign: "left",
-    transition: "all 0.15s",
   });
 
   const getBadgeStyle = (value, isUrgent = false) => ({
@@ -83,150 +76,186 @@ const Sidebar = ({ stats, activeFilter, onFilterChange }) => {
   });
 
   return (
-    <div style={sidebarStyle}>
-      {/* Logo */}
-      <div style={{ padding: "20px 16px", borderBottom: "1px solid #F1F5F9" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-          <div
-            style={{
-              width: "32px",
-              height: "32px",
-              backgroundColor: "#2563EB",
-              borderRadius: "8px",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              color: "white",
-              fontWeight: 700,
-              fontSize: "14px",
-            }}
-          >
-            T
-          </div>
-          <span style={{ fontWeight: 600, fontSize: "15px", color: "#1E293B" }}>
-            TaskManager
-          </span>
-        </div>
-      </div>
+    <>
+      {/* Hamburger Button */}
+      <button className="hamburger" onClick={() => setMobileOpen(true)}>
+        ☰
+      </button>
 
-      {/* Nav */}
-      <div style={{ flex: 1, padding: "16px 8px", overflowY: "auto" }}>
-        {/* Main */}
-        <p
-          style={{
-            fontSize: "11px",
-            fontWeight: 700,
-            color: "#0f1013",
-            textTransform: "uppercase",
-            letterSpacing: "1px",
-            padding: "0 12px",
-            marginBottom: "6px",
-          }}
-        >
-          Menu
-        </p>
+      {/* Overlay */}
+      <div
+        className={`sidebar-overlay ${mobileOpen ? "mobile-open" : ""}`}
+        onClick={() => setMobileOpen(false)}
+      />
 
-        {navItems.map((item) => (
-          <button
-            key={item.value}
-            onClick={() => onFilterChange(item.value)}
-            style={getNavStyle(item.value)}
-          >
-            <span style={{ fontSize: "15px" }}>{item.icon}</span>
-            <span style={{ flex: 1 }}>{item.label}</span>
-            <span style={getBadgeStyle(item.value)}>{item.count}</span>
-          </button>
-        ))}
-
-        {/* Priority */}
-        <p
-          style={{
-            fontSize: "11px",
-            fontWeight: 700,
-            color: "#0f1013",
-            textTransform: "uppercase",
-            letterSpacing: "1px",
-            padding: "0 12px",
-            marginBottom: "6px",
-            marginTop: "20px",
-          }}
-        >
-          Priority
-        </p>
-
-        {priorityItems.map((item) => (
-          <button
-            key={item.value}
-            onClick={() => onFilterChange(item.value)}
-            style={getNavStyle(item.value, true)}
-          >
-            <span style={{ fontSize: "15px" }}>{item.icon}</span>
-            <span style={{ flex: 1 }}>{item.label}</span>
-            {item.count > 0 && (
-              <span style={getBadgeStyle(item.value, true)}>{item.count}</span>
-            )}
-          </button>
-        ))}
-      </div>
-
-      {/* User */}
-      <div style={{ padding: "12px", borderTop: "1px solid #F1F5F9" }}>
+      {/* Sidebar */}
+      <div className={`sidebar ${mobileOpen ? "mobile-open" : ""}`}>
+        {/* Logo */}
         <div
           style={{
+            padding: "20px 16px",
+            borderBottom: "1px solid #F1F5F9",
             display: "flex",
             alignItems: "center",
-            gap: "10px",
-            padding: "8px",
+            justifyContent: "space-between",
           }}
         >
-          <div
-            style={{
-              width: "32px",
-              height: "32px",
-              borderRadius: "50%",
-              backgroundColor: "#EFF6FF",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              color: "#2563EB",
-              fontWeight: 600,
-              fontSize: "13px",
-              flexShrink: 0,
-            }}
-          >
-            {user?.name?.charAt(0).toUpperCase()}
-          </div>
-          <div style={{ flex: 1, minWidth: 0 }}>
-            <p
+          <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+            <div
               style={{
-                fontSize: "13px",
-                fontWeight: 600,
-                color: "#1E293B",
-                overflow: "hidden",
-                textOverflow: "ellipsis",
-                whiteSpace: "nowrap",
+                width: "32px",
+                height: "32px",
+                backgroundColor: "#2563EB",
+                borderRadius: "8px",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                color: "white",
+                fontWeight: 700,
+                fontSize: "14px",
               }}
             >
-              {user?.name}
-            </p>
-            <p style={{ fontSize: "11px", color: "#64748B" }}>Member</p>
+              T
+            </div>
+            <span
+              style={{ fontWeight: 600, fontSize: "15px", color: "#1E293B" }}
+            >
+              TaskManager
+            </span>
           </div>
           <button
-            onClick={handleLogout}
-            title="Logout"
+            onClick={() => setMobileOpen(false)}
             style={{
               background: "none",
               border: "none",
               cursor: "pointer",
-              fontSize: "16px",
+              fontSize: "18px",
               color: "#94A3B8",
             }}
           >
-            ➡️
+            ✕
           </button>
         </div>
+
+        {/* Nav */}
+        <div style={{ flex: 1, padding: "16px 8px", overflowY: "auto" }}>
+          <p
+            style={{
+              fontSize: "10px",
+              fontWeight: 600,
+              color: "#94A3B8",
+              textTransform: "uppercase",
+              letterSpacing: "1px",
+              padding: "0 12px",
+              marginBottom: "6px",
+            }}
+          >
+            Menu
+          </p>
+
+          {navItems.map((item) => (
+            <button
+              key={item.value}
+              onClick={() => handleFilterChange(item.value)}
+              style={getNavStyle(item.value)}
+            >
+              <span style={{ fontSize: "15px" }}>{item.icon}</span>
+              <span style={{ flex: 1 }}>{item.label}</span>
+              <span style={getBadgeStyle(item.value)}>{item.count}</span>
+            </button>
+          ))}
+
+          <p
+            style={{
+              fontSize: "10px",
+              fontWeight: 600,
+              color: "#94A3B8",
+              textTransform: "uppercase",
+              letterSpacing: "1px",
+              padding: "0 12px",
+              marginBottom: "6px",
+              marginTop: "20px",
+            }}
+          >
+            Priority
+          </p>
+
+          {priorityItems.map((item) => (
+            <button
+              key={item.value}
+              onClick={() => handleFilterChange(item.value)}
+              style={getNavStyle(item.value, true)}
+            >
+              <span style={{ fontSize: "15px" }}>{item.icon}</span>
+              <span style={{ flex: 1 }}>{item.label}</span>
+              {item.count > 0 && (
+                <span style={getBadgeStyle(item.value, true)}>
+                  {item.count}
+                </span>
+              )}
+            </button>
+          ))}
+        </div>
+
+        {/* User */}
+        <div style={{ padding: "12px", borderTop: "1px solid #F1F5F9" }}>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "10px",
+              padding: "8px",
+            }}
+          >
+            <div
+              style={{
+                width: "32px",
+                height: "32px",
+                borderRadius: "50%",
+                backgroundColor: "#EFF6FF",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                color: "#2563EB",
+                fontWeight: 600,
+                fontSize: "13px",
+                flexShrink: 0,
+              }}
+            >
+              {user?.name?.charAt(0).toUpperCase()}
+            </div>
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <p
+                style={{
+                  fontSize: "13px",
+                  fontWeight: 600,
+                  color: "#1E293B",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                {user?.name}
+              </p>
+              <p style={{ fontSize: "11px", color: "#64748B" }}>Member</p>
+            </div>
+            <button
+              onClick={handleLogout}
+              title="Logout"
+              style={{
+                background: "none",
+                border: "none",
+                cursor: "pointer",
+                fontSize: "16px",
+                color: "#94A3B8",
+              }}
+            >
+              ➡️
+            </button>
+          </div>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

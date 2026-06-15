@@ -116,32 +116,14 @@ const DashboardPage = () => {
   });
 
   return (
-    <div
-      style={{
-        display: "flex",
-        minHeight: "100vh",
-        backgroundColor: "#F8FAFC",
-      }}
-    >
+    <div className="app-layout">
       {/* Sidebar */}
       <Sidebar stats={stats} activeFilter={filter} onFilterChange={setFilter} />
 
       {/* Main Content */}
-      <div style={{ flex: 1, marginLeft: "224px", minWidth: 0 }}>
+      <div className="main-content">
         {/* Top Bar */}
-        <div
-          style={{
-            background: "white",
-            borderBottom: "1px solid #F1F5F9",
-            padding: "16px 32px",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            position: "sticky",
-            top: 0,
-            zIndex: 10,
-          }}
-        >
+        <div className="topbar">
           <div>
             <h1 style={{ fontSize: "18px", fontWeight: 600, color: "#1E293B" }}>
               {filterLabels[filter]}
@@ -179,23 +161,13 @@ const DashboardPage = () => {
         </div>
 
         {/* Content */}
-        <div style={{ padding: "32px" }}>
+
+        <div className="content-area">
           {/* Welcome Banner */}
-          <div
-            style={{
-              background: "linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%)",
-              borderRadius: "16px",
-              padding: "24px 28px",
-              marginBottom: "24px",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-            }}
-          >
+          <div className="welcome-banner">
             <div>
               <h2
                 style={{
-                  fontSize: "20px",
                   fontWeight: 700,
                   color: "white",
                   marginBottom: "6px",
@@ -215,7 +187,8 @@ const DashboardPage = () => {
                 . Keep going! 🚀
               </p>
             </div>
-            <div style={{ fontSize: "48px" }}>📋</div>
+
+            <div className="welcome-emoji">📋</div>
           </div>
           {/* Stats */}
           <StatsBar stats={stats} />
@@ -264,13 +237,7 @@ const DashboardPage = () => {
               </p>
             </div>
           ) : (
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
-                gap: "16px",
-              }}
-            >
+            <div className="tasks-grid">
               {tasks.map((task) => (
                 <TaskCard
                   key={task._id}

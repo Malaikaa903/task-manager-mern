@@ -32,14 +32,7 @@ const StatsBar = ({ stats }) => {
   ];
 
   return (
-    <div
-      style={{
-        display: "grid",
-        gridTemplateColumns: "repeat(4, 1fr)",
-        gap: "16px",
-        marginBottom: "24px",
-      }}
-    >
+    <div className="stats-grid">
       {cards.map((card) => (
         <div
           key={card.label}
